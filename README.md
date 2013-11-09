@@ -1,6 +1,9 @@
 Expenses
 ========
 
+Overview
+--------
+
 * This is a test app.
 
 * A simple app in node.js to enter our daily expenses details between our friends and see the cumulative status of the expenses we made.
@@ -13,21 +16,20 @@ Expenses
 
 * If any one interested can give me some feedback to improve this.
 
-= To Run this app =
+To Run this app
+---------------
 
 * Clone this app to your local machine
 
-* cd to the project
- cd Expenses
+* cd to the project: cd Expenses
 
-* Install dependencies
- npm install
+* Install dependencies: npm install
 
-* To run this app use node command
-  node app
+* To run this app use node command: node app
 
-= To use this app you need to install =
+To use this app you need to install
+-----------------------------------
 
-* Install node.js
-* Install mongodb
+* node.js latest version
+* mongodb latest version
 
