@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/bootstrap.css' />
+    <link rel='stylesheet' href='/stylesheets/jquery.dataTables.css'/>
+    <link rel='stylesheet' href='/stylesheets/jquery.dataTables.yadcf.css'/>
+    <link rel='stylesheet' href='/stylesheets/jquery-ui.css'/>
+    <script src="/javascripts/jquery.js"></script>
+    <script src='/javascripts/jquery.dataTables.js'></script>
+    <script src="/javascripts/jquery.dataTables.yadcf.js"></script>
+    <script type='text/javascript'>
+	$(document).ready(function(){
+		$('#expense-list').dataTable().yadcf([
+			{column_number : 0 },
+			{column_number : 2 }
+		]);
+	});
+    </script>
+  </head>
+  <body>
+    <h1><%= title %></h1>
+	<div class='content'>
+	<table id='expense-list'>
+	<thead class='ui-widget-header'>
+		<th width="25%">Spent By</th>
+		<th width="15%">On Date</th>
+		<th width="35%">Spent for</th>
+		<th width="25%">Spent INR</th>
+	</thead>
+	<tbody class='ui-widget-content'>
+	<% for(var i=0;i< data.length; i++){ %>
+	<% var date = data[i].date.getUTCDate() +'/'+(data[i].date.getUTCMonth() + 1)+'/'+data[i].date.getUTCFullYear();%>
+		<tr>
+			<td><%= data[i].name %></td>
+			<td><%= date %></td>
+			<td><%= data[i].forWhat %></td>
+			<td><%= data[i].howMuch %></td>
+		</tr>
+	<% } %>
+	</tbody>
+	</table>
+	</div>
+<br/>
+<center>
+<a href='/update'><button class="btn btn-primary">Add Expense</button></a>
+<a href='/stats'><button class="btn btn-primary">View Status</button></a>
+</center>
+  </body>
+</html>

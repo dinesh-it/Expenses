@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/bootstrap.css' />
+    <link rel='stylesheet' href='/stylesheets/jquery-ui.css'/>
+    <script src="/javascripts/jquery.js"></script>
+    <script type='text/javascript'>
+    </script>
+  </head>
+  <body>
+	<div class='content'>
+	<form>
+	<strong>Filter</strong><br/>
+	For month 
+	<select name='m'>
+		<option>01</option>
+		<option>02</option>
+		<option>03</option>
+		<option>04</option>
+		<option>05</option>
+		<option>06</option>
+		<option>07</option>
+		<option>08</option>
+		<option>09</option>
+		<option>10</option>
+		<option>11</option>
+		<option>12</option>
+	</select>
+	and year <select name='y'>
+		<option>2013</option>
+		<option>2014</option>
+	</select>
+	or show full data <input type='checkbox' value="yes" name='full'></input>
+	<button type='submit' value="Load">Load</button>
+	<form>
+	</div><br/>
+	<div class='content'>
+	<p>Currently showing 
+	<% if(params.full ==  'yes' ) {%>
+		full data status 
+	<% } else { %>
+	for month <%= params.m %>/<%= params.y %>
+	<% } %></p> 
+	</div>
+	<div class='content'>
+		<h3> Individual expense </h3>
+		<% var total = 0,i=0%>
+		<% for(var name in user_vise){ %>
+			<p>&nbsp;<%= name %> spent total : <%= user_vise[name] %> INR</p>
+			<% total = Number(total) + Number(user_vise[name]); i++ %>
+		<% } %>
+		<% if(params.full != 'yes'){ %>
+		<p>&nbsp;Total expence of <%= params.m%>/<%=params.y%> : <%= total %> INR</p>
+		<p>&nbsp;Each ones share : <%= (total/i) %> INR</p>
+		<% var share = total / i; %>
+		<% for(var name in user_vise){ %>
+                   <p>&nbsp;<%= name %> needs to give: <%= share - Number(user_vise[name])%> INR</p>
+                <% } %>
+		 <% } else { %>
+			<p> Till now you have spent <%= total %> INR</p>
+		 <% } %>
+	</div><br/>
+	<div class='content'>
+		<h3> Item wise expense </h3>
+		<% for(var name in item_vise){ %>
+                        <p>&nbsp;For <%= name %> you spent : <%= item_vise[name] %> INR</p>
+                <% } %>
+	</div>
+<br/>
+<center>
+<a href='/update'><input type='button' class="btn btn-primary" value="Add Expense"/></a>
+<a href='/expenses'><button class="btn btn-primary">View Summary</button></a>
+</center>
+  </body>
+</html>

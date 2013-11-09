@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+	<ul>
+	<% for(var i=0;i< name_list.length; i++){ %>
+		<li><%= name_list[i] %></li>
+	<% } %>
+	</ul>
+  </body>
+</html>
