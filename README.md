@@ -12,3 +12,22 @@ Expenses
 * This is a simple test app which I developed to learn nodejs and mongodb.
 
 * If any one interested can give me some feedback to improve this.
+
+= To Run this app =
+
+* Clone this app to your local machine
+
+* cd to the project
+ cd Expenses
+
+* Install dependencies
+ npm install
+
+* To run this app use node command
+  node app
+
+= To use this app you need to install =
+
+* Install node.js
+* Install mongodb
+
