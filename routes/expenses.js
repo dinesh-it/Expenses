@@ -59,9 +59,14 @@ db.open(function(err,db){
 			if(req.query.full != 'yes'){
 			var y = req.query.y ? req.query.y : new Date().getFullYear();
 			var m = req.query.m ? req.query.m : (new Date().getMonth() + 1);
+			var d = req.query.d ? req.query.d : '01';
 			req.query.y = y;
 			req.query.m = m;
-			var start = toDate('01'+'/'+m+'/'+y);
+			var start = toDate(d+'/'+m+'/'+y);
+			if(m == 12 ){
+				y = y + 1;
+				m = 0;
+			}
 			var end = toDate('01'+'/'+(Number(m)+1)+'/'+y);
 			search_query.date = {$gte: start, $lt: end};
 			}

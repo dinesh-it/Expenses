@@ -13,10 +13,10 @@ $(document).ready(function(){
   var date = new Date();
   $("#date").val(date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear());
   var names = ['Dinesh','Baskar'];
-  $("#name").autocomplete({ source : names, autoFocus : true });
-  var items = ['Vegetables','Milk','Items','Shoping','Snacks','Bus fare','House rent','EB bill'];
+  $("#name").autocomplete({ minLength: 0, source : names, autoFocus : true });
+  var items = ['Vegetables','Milk', 'Bread', 'Items','Shoping','Snacks','Bus fare','House rent','EB bill', 'Chicken', 'Auto', 'Malligai', 'Petrol','Rice','Wheat'];
   items = items.concat(names);
-  $("#forWhat").autocomplete({ source : items, autoFocus : true });
+  $("#forWhat").autocomplete({ minLength: 0, source : items, autoFocus : true});
 });
 </script>
 </head>
