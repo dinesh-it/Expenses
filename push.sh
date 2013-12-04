@@ -1,4 +1,4 @@
-sudo mongodump -d test -c expenses db;
+mongodump -d test -c expenses db;
 echo "Backed up data..";
 git add *;
 git commit -m "db update";
