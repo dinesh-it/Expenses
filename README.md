@@ -33,3 +33,11 @@ To use this app you need to install
 * node.js latest version
 * mongodb latest version
 
+Note:
+-----
+
+* Directory db and files push.sh, pull.sh, run.sh is for my personel use.
+* Dont use these files for your own use. db contains my data.
+
+Thankyou
+--------
