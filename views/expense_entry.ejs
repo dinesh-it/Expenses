@@ -29,10 +29,11 @@ $(document).ready(function(){
 <legend>Today's Expense details</legend>
 
 <!-- Text input-->
+<input type="hidden" value="<%= data._id%>" name="_id"/>
 <div class="control-group">
   <label class="control-label" for="date">Date</label>
   <div class="controls">
-    <input id="date" name="date" type="text" placeholder="" class="input-medium" required="">
+    <input id="date" value="<%= data.date %>" name="date" type="text" placeholder="" class="input-medium" required="">
     
   </div>
 </div>
@@ -41,7 +42,7 @@ $(document).ready(function(){
 <div class="control-group">
   <label class="control-label" for="name">Spent by</label>
   <div class="controls">
-    <input id="name" name="name" type="text" placeholder="" class="input-medium" required="">
+    <input id="name" value="<%= data.name %>" name="name" type="text" placeholder="" class="input-medium" required="">
     
   </div>
 </div>
@@ -50,7 +51,7 @@ $(document).ready(function(){
 <div class="control-group">
   <label class="control-label" for="forWhat">For what?</label>
   <div class="controls">
-    <input id="forWhat" name="forWhat" type="text" placeholder="vegetables" class="input-medium" required="">
+    <input id="forWhat" value="<%= data.forWhat %>"name="forWhat" type="text" placeholder="vegetables" class="input-medium" required="">
     
   </div>
 </div>
@@ -59,7 +60,7 @@ $(document).ready(function(){
 <div class="control-group">
   <label class="control-label" for="howMuch">How much?</label>
   <div class="controls">
-    <input id="howMuch" name="howMuch" type="text" placeholder="100" class="input-medium" required="">
+    <input id="howMuch" value="<%= data.howMuch %>" name="howMuch" type="text" placeholder="100" class="input-medium" required="">
     
   </div>
 </div>

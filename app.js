@@ -37,6 +37,8 @@ app.get('/update', expenses.update);
 app.post('/update', expenses.insert_expense);
 app.get('/expenses',expenses.expense_list);
 app.get('/stats', expenses.stats);
+app.post('/edit',expenses.edit);
+app.post('/delete', expenses.delete_rec);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

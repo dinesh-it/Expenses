@@ -25,31 +25,45 @@ db.open(function(err,db){
 }
 
 exports.update = function(req,res){
-	res.render('expense_entry');
+	res.render('expense_entry',{data :  {name : '', forWhat : '', howMuch : '' }});
+}
+
+// under progress
+exports.edit = function(req,res){
+	var data = find_rec(req.body._id);
+	res.render('expense_entry',{ 'data' : data });
+	console.log(data);
+}
+
+// under progress
+exports.delete_rec = function(req, res){
+	if(delete_rec(req.body._id)){
+		exports.expense_list(req,res);
+	}	
 }
 
 exports.insert_expense = function(req,res){
 	db.open(function(err,db){
-	if(!err){
-	  db.collection('expenses',function(err, collection){
-	  if(!err){
-	    //var date = req.body.date.split('/');
-	    collection.insert({date : toDate(req.body.date),
-			       name : req.body.name,
-			       forWhat : req.body.forWhat,
-			       howMuch : req.body.howMuch },function(err){
-					db.close();
-					if(!err){
+        if(!err){
+          db.collection('expenses',function(err, collection){
+          if(!err){
+            //var date = req.body.date.split('/');
+            collection.insert({date : toDate(req.body.date),
+                               name : req.body.name,
+                               forWhat : req.body.forWhat,
+                               howMuch : req.body.howMuch },function(err){
+                                        db.close();
+                                        if(!err){
 						exports.expense_list(req,res);
-					}
-				});
-	  }//end of collection if
-	  });
-	}//end of open if
-	else{
-		console.log("Error: "+err)
-	}
-	});	
+                                        }
+                                });
+          }//end of collection if
+          });
+        }//end of open if
+        else{
+                console.log("Error: "+err)
+        }
+        });
 }
 
 exports.stats = function(req, res) {
@@ -95,4 +109,69 @@ db.open(function(err,db){
 var toDate = function(date_str){ 
 	var date = date_str.split('/');
 	return new Date(""+date[2] +'-'+ date[1] +'-'+ date[0]);
+}
+
+var insert_rec = function(req){
+db.open(function(err,db){
+        if(!err){
+          db.collection('expenses',function(err, collection){
+          if(!err){
+            //var date = req.body.date.split('/');
+            collection.insert({date : toDate(req.body.date),
+                               name : req.body.name,
+                               forWhat : req.body.forWhat,
+                               howMuch : req.body.howMuch },function(err){
+                                        db.close();
+                                        if(!err){
+                                                return true;
+                                        }
+                                });
+          }//end of collection if
+          });
+        }//end of open if
+        else{
+                console.log("Error: "+err)
+        }
+        });
+	return false;
+}
+
+// under progress - not working
+var delete_rec = function(id){
+	db.open(function(err,db){
+        if(!err){
+         	db.collection('expenses',function(err, col){
+         	if(!err){
+          		col.remove({ "_id" : "ObjectId('"+id+"')"},function(err){
+			db.close();
+			if(!err){
+				return true;
+			}		
+			});
+         	}
+        	});
+        }
+	});
+	return false;
+}
+
+
+// under progress - not working
+var find_rec = function(id){
+	db.open(function(err,db){
+	if(!err){
+		db.collection('expenses', function(err,col){
+		if(!err){
+			col.find({ _id : id },function(rec){
+			db.close();
+			console.log(rec);
+			//if(!err){
+				return rec;
+			//}
+			});
+		}
+		});
+	}
+	});
+	return false;
 }

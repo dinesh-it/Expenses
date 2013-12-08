@@ -2,12 +2,12 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/mystyle.css' />
     <link rel='stylesheet' href='/stylesheets/bootstrap.css' />
     <link rel='stylesheet' href='/stylesheets/jquery.dataTables.css'/>
     <link rel='stylesheet' href='/stylesheets/jquery.dataTables.yadcf.css'/>
     <link rel='stylesheet' href='/stylesheets/jquery-ui.css'/>
-    <link rel='stylesheet' href='/stylesheets/TableTools.js'/>
+    <link rel='stylesheet' href='/stylesheets/TableTools.css'/>
     <script src="/javascripts/jquery.js"></script>
     <script src='/javascripts/jquery.dataTables.js'></script>
     <script src="/javascripts/jquery.dataTables.yadcf.js"></script>
@@ -15,10 +15,9 @@
     <script type='text/javascript'>
 	$(document).ready(function(){
 		$('#expense-list').dataTable({
-			"binfo": true,
 			"bAutoWidth" : false,
 			"bJQueryUI" : true,
-			"sDom": 'lf<"tools-btn"T>tip',
+			"sDom": 'lfTtip',
         		"oTableTools": {
             			"sSwfPath": "/swf/copy_csv_xls_pdf.swf",
         		}
@@ -26,9 +25,23 @@
 			{column_number : 0 },
 			{column_number : 2 },
 		]);
-		$('.ui-button').css('margin-right','0.3em');
-		$('.tools-btn').css('margin-left','333px');
-		$('.tools-btn').css('margin-top','3px');
+		$('.delete').on('click' , function(){
+                	var r = confirm("Are you sure, you want to delete this record?");
+			if(r){
+				$.ajax({
+                                url : '/delete',
+				type : 'POST',
+                                data : {'_id' :this.parentNode.parentNode.getAttribute('id'), },
+                        });
+			}
+        	});
+		$('.edit').on('click', function() {
+			$.ajax({
+				url : '/edit',
+				type : 'POST',
+				data : {'_id' :this.parentNode.parentNode.getAttribute('id'), },
+			});
+		});
 	});
     </script>
   </head>
@@ -39,17 +52,22 @@
 	<thead class='ui-widget-header'>
 		<th width="25%">Spent By</th>
 		<th width="15%">On Date</th>
-		<th width="35%">Spent for</th>
-		<th width="25%">Spent INR</th>
+		<th width="30%">Spent for</th>
+		<th width="15%">Spent INR</th>
+		<th width="20%">Action</th>
 	</thead>
 	<tbody class='ui-widget-content'>
 	<% for(var i=0;i< data.length; i++){ %>
 	<% var date = data[i].date.getUTCDate() +'/'+(data[i].date.getUTCMonth() + 1)+'/'+data[i].date.getUTCFullYear();%>
-		<tr>
+		<tr id="<%= data[i]._id %>">
 			<td><%= data[i].name %></td>
 			<td><%= date %></td>
 			<td><%= data[i].forWhat %></td>
 			<td><%= data[i].howMuch %></td>
+			<td>
+				<button class="btn btn-small btn-primary edit">Edit</button>
+				<button class="btn btn-small btn-primary delete">Delete</button>
+			</td>
 		</tr>
 	<% } %>
 	</tbody>
