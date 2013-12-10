@@ -1,14 +1,14 @@
 var Db = require('mongodb').Db;
-        MongoClient = require('mongodb').MongoClient,
-        Server = require('mongodb').Server,
-        ReplSetServers = require('mongodb').ReplSetServers,
-        ObjectID = require('mongodb').ObjectID,
-        Binary = require('mongodb').Binary,
-        GridStore = require('mongodb').GridStore,
-        Grid = require('mongodb').Grid,
-        Code = require('mongodb').Code,
-        BSON = require('mongodb').pure().BSON,
-        assert = require('assert');
+//        MongoClient = require('mongodb').MongoClient,
+var Server = require('mongodb').Server;
+//        ReplSetServers = require('mongodb').ReplSetServers,
+var ObjectID = require('mongodb').ObjectID;
+//        Binary = require('mongodb').Binary,
+//        GridStore = require('mongodb').GridStore,
+//        Grid = require('mongodb').Grid,
+//        Code = require('mongodb').Code,
+//var BSON = require('mongodb').BSONPure;
+var assert = require('assert');
 
 var db = new Db('test', new Server("127.0.0.1", 27017), { w:0, native_parser : false });
 
@@ -35,11 +35,22 @@ exports.edit = function(req,res){
 	console.log(data);
 }
 
-// under progress
 exports.delete_rec = function(req, res){
-	if(delete_rec(req.body._id)){
-		exports.expense_list(req,res);
-	}	
+	db.open(function(err,db){
+        if(!err){
+                db.collection('expenses',function(err, col){
+                if(!err){
+                        col.remove({ "_id" : new ObjectID(req.body._id) },function(err){
+                        db.close();
+                        if(!err){
+                                console.log("Deleted record "+ req.body._id + " Successfuly");
+                                exports.expense_list(req,res);
+                        }
+                        });
+                }
+                });
+        }
+        });
 }
 
 exports.insert_expense = function(req,res){
@@ -135,26 +146,6 @@ db.open(function(err,db){
         });
 	return false;
 }
-
-// under progress - not working
-var delete_rec = function(id){
-	db.open(function(err,db){
-        if(!err){
-         	db.collection('expenses',function(err, col){
-         	if(!err){
-          		col.remove({ "_id" : "ObjectId('"+id+"')"},function(err){
-			db.close();
-			if(!err){
-				return true;
-			}		
-			});
-         	}
-        	});
-        }
-	});
-	return false;
-}
-
 
 // under progress - not working
 var find_rec = function(id){
