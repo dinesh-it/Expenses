@@ -617,12 +617,23 @@ var yadcf = (function ($) {
 						}
 					} else if (column_data_type === "text") {
 						if (text_data_delimiter !== undefined) {
-							col_inner_elements = data[j][column_number].split(text_data_delimiter);
-							for (k = 0; k < col_inner_elements.length; k++) {
-								col_inner_data = col_inner_elements[k];
-								if (!(col_filter_array.hasOwnProperty(col_inner_data))) {
-									col_filter_array[col_inner_data] = col_inner_data;
-									options.push(col_inner_data);
+							// DD Dinesh: My custom filter for mm/yyyy filter
+							if(text_data_delimiter == "mm/yyyy"){
+								col_inner_elements = data[j][column_number].split('/');
+								//alert(col_inner_elements);
+								col_inner_data = col_inner_elements[1]+"/"+col_inner_elements[2];
+                                                        	if (!(col_filter_array.hasOwnProperty(col_inner_data))) {
+                                                                	col_filter_array[col_inner_data] = col_inner_data;
+                                                                	options.push(col_inner_data);
+                                                        	}		
+							} else {
+								col_inner_elements = data[j][column_number].split(text_data_delimiter);
+								for (k = 0; k < col_inner_elements.length; k++) {
+									col_inner_data = col_inner_elements[k];
+									if (!(col_filter_array.hasOwnProperty(col_inner_data))) {
+										col_filter_array[col_inner_data] = col_inner_data;
+										options.push(col_inner_data);
+									}
 								}
 							}
 						} else {
