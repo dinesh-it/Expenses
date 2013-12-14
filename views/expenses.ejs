@@ -17,9 +17,10 @@
 		$('#expense-list').dataTable({
 			"bAutoWidth" : false,
 			"bJQueryUI" : true,
-			"sDom": 'lfTtip',
+			"sDom": 'l<"center"T>ftip',
         		"oTableTools": {
             			"sSwfPath": "/swf/copy_csv_xls_pdf.swf",
+				"aButtons": ['csv','pdf'],
         		}
 		}).yadcf([
 			{column_number : 0 },
@@ -35,13 +36,15 @@
                         });
 			}
         	});
-		$('#expense-list').on('click', 'button.edit' , function() {
+		/*$('#expense-list').on('click', 'button.edit' , function() {
 			$.ajax({
 				url : '/edit',
 				type : 'POST',
 				data : {'_id' :this.parentNode.parentNode.getAttribute('id'), },
 			});
-		});
+		});*/
+		$(".center").css('float','left');
+		$(".center").css('margin-left','45%');
 	});
     </script>
   </head>
@@ -65,7 +68,7 @@
 			<td><%= data[i].forWhat %></td>
 			<td><%= data[i].howMuch %></td>
 			<td>
-				<button class="btn btn-small btn-primary edit">Edit</button>
+				<!-- <button class="btn btn-small btn-primary edit">Edit</button> -->
 				<button class="btn btn-small btn-primary delete">Delete</button>
 			</td>
 		</tr>
