@@ -21,11 +21,11 @@ To Run this app
 
 * Clone this app to your local machine
 
-* cd to the project: cd Expenses
+* cd to the project: `cd Expenses`
 
-* Install dependencies: npm install
+* Install dependencies: `npm install`
 
-* To run this app use node command: node app
+* To run this app use node command: `node app.js`
 
 To use this app you need to install
 -----------------------------------
@@ -36,8 +36,7 @@ To use this app you need to install
 Note:
 -----
 
-* Directory db and files push.sh, pull.sh, run.sh is for my personel use.
-* Dont use these files for your own use. db contains my data.
+* Directory db and files push.sh, pull.sh, run.sh is for my personel use, Delete these files/folders once you cloned. db contains my data.
 
 Thankyou
 --------
