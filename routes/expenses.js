@@ -89,7 +89,7 @@ db.open(function(err,db){
 			req.query.m = m;
 			var start = toDate(d+'/'+m+'/'+y);
 			if(m == 12 ){
-				y = y + 1;
+				y = parseInt(y) + 1;
 				m = 0;
 			}
 			var end = toDate('01'+'/'+(Number(m)+1)+'/'+y);
