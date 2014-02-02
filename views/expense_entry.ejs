@@ -14,7 +14,7 @@
         $(document).ready(function() {
             $("#date").datepicker({
                 dateFormat: 'dd/mm/yy'
-            });
+			});
             var date = new Date();
 			$("#date").val(date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
             var names = ['Dinesh', 'Baskar'];
@@ -90,7 +90,7 @@
 				<div class="control-group">
 					<label class="control-label" for="forWhat">Details</label>
 					<div class="controls">
-						<input id="details" value="" name="details" type="text" placeholder="paani poori" class="input-medium" required="">
+						<input id="details" value="" name="details" type="text" placeholder="paani poori" class="input-medium">
 					</div>
 				</div>
 

@@ -50,6 +50,7 @@
 		oTable = $('#expense-list').dataTable({
 			"bAutoWidth" : false,
 			"bJQueryUI" : true,
+			"iDisplayLength" : 100,
 			"sDom": 'l<"center"T>ftip<"total">',
 			"aoColumns" : [ null,{sType : "date-eu" },null,null,null,{bSortable:false}],
         		"oTableTools": {
@@ -113,7 +114,7 @@
 			<td><%= date %></td>
 			<td><%= data[i].forWhat %></td>
 			<td class="inr"><%= data[i].howMuch %></td>
-			<td><%= data[i].details ? data[i].details : 'N/A' %></td>
+			<td><%= data[i].details ? data[i].details : ' - ' %></td>
 			<td>
 				<!-- <button class="btn btn-small btn-primary edit">Edit</button> -->
 				<button class="btn btn-small btn-primary delete">Delete</button>

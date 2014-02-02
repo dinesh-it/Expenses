@@ -132,21 +132,29 @@ exports.stats = function(req, res) {
                 db.close();
                 var user_vise = {};
                 var item_vise = {};
-                for (var i = 0; i < data.length; i++) {
-                    var name = data[i].name;
-                    var inr = Number(data[i].howMuch) + 0;
-                    var item = data[i].forWhat;
-                    var items_inr = inr;
-                    if (user_vise[name] != undefined)
-                        inr = inr + Number(user_vise[name]);
-                    if (item_vise[item] != undefined)
-                        items_inr = items_inr + Number(item_vise[item]);
-                    user_vise[name] = inr;
-                    item_vise[item] = items_inr;
-                }
+				var personnal = {};
+				for (var i = 0; i < data.length; i++) {
+					var name = data[i].name;
+					var inr = Number(data[i].howMuch) + 0;
+					var item = data[i].forWhat;
+					var items_inr = inr;
+					if ( name === item ) {
+						if (personnal[name] != undefined)
+							inr = inr + Number(personnal[name]);
+						personnal[name] = inr;
+					} else {
+						if (user_vise[name] != undefined)
+							inr = inr + Number(user_vise[name]);
+						if (item_vise[item] != undefined)
+							items_inr = items_inr + Number(item_vise[item]['amt']);
+						user_vise[name] = inr;
+						item_vise[item] = {'amt': items_inr};
+					}
+				}
                 res.render('status', {
                     user_vise: user_vise,
                     item_vise: item_vise,
+					personnal: personnal,
                     title: 'Status',
                     params: req.query
                 });

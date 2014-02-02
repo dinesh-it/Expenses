@@ -41,7 +41,7 @@
 	<% if(params.full ==  'yes' ) {%>
 		full data status 
 	<% } else { %>
-	for month <%= params.m %>/<%= params.y %>
+	for month <strong><%= params.m %>/<%= params.y %></strong>
 	<% } %></p> 
 	</div>
 	<div class='content'>
@@ -58,17 +58,22 @@
 		<p>&nbsp;Each ones share : <%= (total/i) %> INR</p>
 		<% var share = total / i; %>
 		<% for(var name in user_vise){ %>
-                   <p>&nbsp;<%= name %> needs to give: <%= share - Number(user_vise[name])%> INR</p>
-                <% } %>
+			<p>&nbsp;<%= name %> needs to give: <%= share - Number(user_vise[name])%> INR</p>
+		<% } %>
 		 <% } else { %>
-			<p> Till now you have spent <%= total %> INR</p>
-		 <% } %>
+			<p> Till now teams expense is: <%= total %> INR</p>
+			<% } %>
+		<h3> Personnel Expense </h3>
+		<% for (var name in personnal) { %>
+		<p>&nbsp;<%= name %> spent total : <%= personnal[name] %>(self) 
+		+ <%= user_vise[name] %>(team) = <%= (personnal[name] + user_vise[name] )%> INR</p>
+		<% } %>
 	</div><br/>
 	<div class='content'>
 		<h3> Item wise expense </h3>
 		<% for(var name in item_vise){ %>
 		<% if( ! (name in user_vise) ) { %>
-		<p>&nbsp;For <%= name %> you spent : <%= item_vise[name] %> INR</p>
+		<p>&nbsp;For <%= name %> you spent : <%= item_vise[name]['amt'] %> INR</p>
 		<% } %>
 		<% } %>
 	</div>
