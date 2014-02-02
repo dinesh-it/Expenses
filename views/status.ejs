@@ -6,7 +6,7 @@
     <link rel='stylesheet' href='/stylesheets/bootstrap.css' />
     <link rel='stylesheet' href='/stylesheets/jquery-ui.css'/>
     <script src="/javascripts/jquery.js"></script>
-    <script type='text/javascript'>
+	<script type='text/javascript'>
     </script>
   </head>
   <body>
@@ -29,8 +29,8 @@
 		<option>12</option>
 	</select>
 	and year <select name='y'>
-		<option>2013</option>
 		<option>2014</option>
+		<option>2013</option>
 	</select>
 	or show full data <input type='checkbox' value="yes" name='full'></input>
 	<button type='submit' value="Load">Load</button>
@@ -47,10 +47,12 @@
 	<div class='content'>
 		<h3> Individual expense </h3>
 		<% var total = 0,i=0%>
+		<% var name_list = []; %>
 		<% for(var name in user_vise){ %>
+			<% name_list.push(name); %>
 			<p>&nbsp;<%= name %> spent total : <%= user_vise[name] %> INR</p>
 			<% total = Number(total) + Number(user_vise[name]); i++ %>
-		<% } %>
+			<% } %>
 		<% if(params.full != 'yes'){ %>
 		<p>&nbsp;Total expence of <%= params.m%>/<%=params.y%> : <%= total %> INR</p>
 		<p>&nbsp;Each ones share : <%= (total/i) %> INR</p>
@@ -65,8 +67,10 @@
 	<div class='content'>
 		<h3> Item wise expense </h3>
 		<% for(var name in item_vise){ %>
-                        <p>&nbsp;For <%= name %> you spent : <%= item_vise[name] %> INR</p>
-                <% } %>
+		<% if( ! (name in user_vise) ) { %>
+		<p>&nbsp;For <%= name %> you spent : <%= item_vise[name] %> INR</p>
+		<% } %>
+		<% } %>
 	</div>
 <br/>
 <center>

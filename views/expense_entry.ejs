@@ -1,82 +1,127 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Expense</title>
-<link rel='stylesheet' href='/stylesheets/bootstrap.css' />
-<link rel='stylesheet' href='/stylesheets/jquery-ui.css' />
-<script src='/javascripts/jquery.js'></script>
-<script src='/javascripts/jquery-ui.js'></script>
-<script src='/javascripts/bootstrap.js'></script>
-<script>
-$(document).ready(function(){
-  $("#date").datepicker({ dateFormat : 'dd/mm/yy'});
-  var date = new Date();
-  $("#date").val(date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear());
-  var names = ['Dinesh','Baskar'];
-  $("#name").autocomplete({ minLength: 0, source : names, autoFocus : true });
-  var items = ['Vegetables','Milk', 'Bread', 'Items','Shoping','Snacks','Bus fare','House rent','EB bill', 'Chicken', 'Auto', 'Malligai', 'Petrol','Rice','Wheat'];
-  items = items.concat(names);
-  $("#forWhat").autocomplete({ minLength: 0, source : items, autoFocus : true});
-});
-</script>
+    <title>Expense</title>
+    <link rel='stylesheet' href='/stylesheets/jquery-ui.css' />
+    <link rel='stylesheet' href='/stylesheets/bootstrap.css' />
+    <link rel='stylesheet' href='/stylesheets/ui.notify.css' />
+    <script src='/javascripts/jquery.js'></script>
+    <script src='/javascripts/jquery-ui.js'></script>
+    <script src='/javascripts/bootstrap.js'></script>
+    <script src='/javascripts/jquery.notify.js'></script>
+    <script>
+        $(document).ready(function() {
+            $("#date").datepicker({
+                dateFormat: 'dd/mm/yy'
+            });
+            var date = new Date();
+			$("#date").val(date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
+            var names = ['Dinesh', 'Baskar'];
+            $("#name").autocomplete({
+                minLength: 0,
+                source: names,
+                autoFocus: true
+            });
+            var items = ['Vegetables', 'Milk', 'Bread', 'Items', 'Shoping', 'Snacks', 'Bus fare', 'House rent', 'EB bill', 'Chicken', 'Auto', 'Malligai', 'Petrol'];
+            items = items.concat(names);
+            $("#forWhat").autocomplete({
+                minLength: 0,
+                source: items,
+                autoFocus: true
+            });
+            $("#container").notify();
+            if ( <%= data.added_success %> ) {
+                $("#container").notify("create", 0, {
+                    title: 'Success',
+                    text: 'Entry added successfuly. :)'
+                }, {
+                    speed: 200
+                });
+            }
+			$("#date").focus();
+        });
+    </script>
 </head>
+
 <body>
-<center>
-<form method='post' class="form-horizontal">
-<fieldset>
+    <div id="container" style="display:none">
+        <div id="basic-template">
+            <a class="ui-notify-cross ui-notify-close" href="#">x</a>
+            <h1>#{title}</h1>
+            <p>#{text}</p>
+        </div>
+    </div>
+    <center>
+        <form method='post' class="form-horizontal">
+            <fieldset>
 
-<!-- Form Name -->
-<legend>Today's Expense details</legend>
+                <!-- Form Name -->
+                <legend>Today's Expense details</legend>
 
-<!-- Text input-->
-<input type="hidden" value="<%= data._id%>" name="_id"/>
-<div class="control-group">
-  <label class="control-label" for="date">Date</label>
-  <div class="controls">
-    <input id="date" value="<%= data.date %>" name="date" type="text" placeholder="" class="input-medium" required="">
-    
-  </div>
-</div>
+                <!-- Text input-->
+                <input type="hidden" value="<%= data._id%>" name="_id" />
+                <div class="control-group">
+                    <label class="control-label" for="date">Date</label>
+                    <div class="controls">
+                        <input id="date" value="<%= data.date %>" name="date" type="text" placeholder="" class="input-medium" required="">
+                    </div>
+                </div>
 
-<!-- Text input-->
-<div class="control-group">
-  <label class="control-label" for="name">Spent by</label>
-  <div class="controls">
-    <input id="name" value="<%= data.name %>" name="name" type="text" placeholder="" class="input-medium" required="">
-    
-  </div>
-</div>
+                <!-- Text input-->
+                <div class="control-group">
+                    <label class="control-label" for="name">Spent by</label>
+                    <div class="controls">
+                        <input id="name" value="<%= data.name %>" name="name" type="text" placeholder="" class="input-medium" required="">
 
-<!-- Text input-->
-<div class="control-group">
-  <label class="control-label" for="forWhat">For what?</label>
-  <div class="controls">
-    <input id="forWhat" value="<%= data.forWhat %>"name="forWhat" type="text" placeholder="vegetables" class="input-medium" required="">
-    
-  </div>
-</div>
+                    </div>
+                </div>
 
-<!-- Text input-->
-<div class="control-group">
-  <label class="control-label" for="howMuch">How much?</label>
-  <div class="controls">
-    <input id="howMuch" value="<%= data.howMuch %>" name="howMuch" type="text" placeholder="100" class="input-medium" required="">
-    
-  </div>
-</div>
+                <!-- Text input-->
+                <div class="control-group">
+                    <label class="control-label" for="forWhat">For what?</label>
+                    <div class="controls">
+                        <input id="forWhat" value="<%= data.forWhat %>" name="forWhat" type="text" placeholder="vegetables" class="input-medium" required="">
 
-<!-- Button -->
-<div class="control-group">
-  <label class="control-label" for="save"></label>
-  <div class="controls">
-    <button type="submit" id="save" name="save" class="btn btn-success">Save</button>
-  </div>
-</div>
-</fieldset>
-</form>
-<br/><br/>
-<a href='/expenses'><button class="btn btn-primary">View Summary</button></a>
-<a href='/stats'><button class="btn btn-primary">View Status</button></a>
-</center>
+                    </div>
+				</div>
+
+				<!-- Text input-->
+				<div class="control-group">
+					<label class="control-label" for="forWhat">Details</label>
+					<div class="controls">
+						<input id="details" value="" name="details" type="text" placeholder="paani poori" class="input-medium" required="">
+					</div>
+				</div>
+
+
+                <!-- Text input-->
+                <div class="control-group">
+                    <label class="control-label" for="howMuch">How much?</label>
+                    <div class="controls">
+                        <input id="howMuch" value="<%= data.howMuch %>" name="howMuch" type="text" placeholder="100" class="input-medium" required="">
+
+                    </div>
+                </div>
+
+                <!-- Button -->
+                <div class="control-group">
+                    <label class="control-label" for="save"></label>
+                    <div class="controls">
+                        <button type="submit" id="save" name="save" class="btn btn-success">Save</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        <br/>
+        <br/>
+        <a href='/expenses'>
+            <button class="btn btn-primary">View Summary</button>
+        </a>
+        <a href='/stats'>
+            <button class="btn btn-primary">View Status</button>
+        </a>
+    </center>
 </body>
+
 </html>
