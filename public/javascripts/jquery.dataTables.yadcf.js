@@ -622,10 +622,10 @@ var yadcf = (function ($) {
 								col_inner_elements = data[j][column_number].split('/');
 								//alert(col_inner_elements);
 								col_inner_data = col_inner_elements[1]+"/"+col_inner_elements[2];
-                                                        	if (!(col_filter_array.hasOwnProperty(col_inner_data))) {
-                                                                	col_filter_array[col_inner_data] = col_inner_data;
-                                                                	options.push(col_inner_data);
-                                                        	}		
+								if (!(col_filter_array.hasOwnProperty(col_inner_data))) {
+									col_filter_array[col_inner_data] = col_inner_data;
+									options.push(col_inner_data);
+								}		
 							} else {
 								col_inner_elements = data[j][column_number].split(text_data_delimiter);
 								for (k = 0; k < col_inner_elements.length; k++) {
@@ -645,6 +645,7 @@ var yadcf = (function ($) {
 						}
 					}
 				}
+				col_filter_array = {};
 
 			} else {
 				for (ii = 0; ii < data.length; ii++) {

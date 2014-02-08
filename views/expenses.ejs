@@ -1,133 +1,198 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
+
+<head>
+    <title>
+        <%= title %>
+    </title>
     <link rel='stylesheet' href='/stylesheets/mystyle.css' />
     <link rel='stylesheet' href='/stylesheets/bootstrap.css' />
-    <link rel='stylesheet' href='/stylesheets/jquery.dataTables.css'/>
-    <link rel='stylesheet' href='/stylesheets/jquery.dataTables.yadcf.css'/>
-    <link rel='stylesheet' href='/stylesheets/jquery-ui.css'/>
-    <link rel='stylesheet' href='/stylesheets/TableTools.css'/>
-	<script src="/javascripts/jquery.js"></script>
-	<script src="/javascripts/jquery-ui.js"></script>
+    <link rel='stylesheet' href='/stylesheets/jquery.dataTables.css' />
+    <link rel='stylesheet' href='/stylesheets/jquery.dataTables.yadcf.css' />
+    <link rel='stylesheet' href='/stylesheets/jquery-ui.css' />
+    <link rel='stylesheet' href='/stylesheets/TableTools.css' />
+    <script src="/javascripts/jquery.js"></script>
+    <script src="/javascripts/jquery-ui.js"></script>
     <script src='/javascripts/jquery.dataTables.js'></script>
     <script src="/javascripts/jquery.dataTables.yadcf.js"></script>
     <script src="/javascripts/TableTools.js"></script>
     <script type='text/javascript'>
-	function cal_total() {
-    		var total = 0;
-    		$(".inr").each(function(index, element) {
-        		total += parseInt($(element).text());
-    		});
-    		$(".total").html("<p>Total expense of filtered report is : INR -------------------- <strong>"+ total +"</strong></p>");
-	}
-	jQuery.extend( jQuery.fn.dataTableExt.oSort, {
-    		"date-eu-pre": function ( date ) {
-        		//var date = date.replace(" ", "");
-            		var eu_date = date.split('/');
-            		var year = eu_date[2];
-        		var month = eu_date[1];
-        		if (month.length == 1) {
-            			month = 0+month;
-        		} 
-        		var day = eu_date[0];
-        		if (day.length == 1) {
-            			day = 0+day;
-        		} 
-        	return (year + month + day) * 1;
-    	},
- 
-    	"date-eu-asc": function ( a, b ) {
-        	return ((a < b) ? -1 : ((a > b) ? 1 : 0));
-    	},
- 
-    	"date-eu-desc": function ( a, b ) {
-        	return ((a < b) ? 1 : ((a > b) ? -1 : 0));
-    	}
-	} );
-	var oTable;
-	$(document).ready(function(){
-		oTable = $('#expense-list').dataTable({
-			"bAutoWidth" : false,
-			"bJQueryUI" : true,
-			"iDisplayLength" : 100,
-			"sDom": 'l<"center"T>ftip<"total">',
-			"aoColumns" : [ null,{sType : "date-eu" },null,null,null,{bSortable:false}],
-        		"oTableTools": {
-            			"sSwfPath": "/swf/copy_csv_xls_pdf.swf",
-				"aButtons": ['csv','pdf'],
-			},
-		}).yadcf([
-			{column_number : 0 },
-			{column_number : 1 ,text_data_delimiter : "mm/yyyy", filter_default_label: "All Months"},
-			{column_number : 2 },{column_number : 3 },
-			{column_number : 4 , text_data_delimiter : " ", filter_type : 'auto_complete'},
-		]).fnSort([[1,'desc']]);
-		$('#expense-list').on('click', 'button.delete' , function(){
-			var r = confirm("Are you sure, you want to delete this record?");
-			var id = this.parentNode.parentNode.getAttribute('id');
-			if(r){
-				$.ajax({
-					url : '/delete',
-					type : 'POST',
-					data : {'_id' : id, },
-					success : function() {
-						//alert("Deleted successfully");
-						//oTable.fnDeleteRow(document.getElementById(id));
-						window.location = "/expenses";
-					}
-				});
-			}
-		});
-		/*$('#expense-list').on('click', 'button.edit' , function() {
+        function cal_total() {
+            var total = 0;
+            $(".inr").each(function(index, element) {
+                total += parseInt($(element).text());
+            });
+            $("#val").val(total);
+            $(".total").html("<p>Total expense of filtered report is : INR -------------------- <strong>" + total + "</strong></p>");
+        }
+        jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+            "date-eu-pre": function(date) {
+                //var date = date.replace(" ", "");
+                var eu_date = date.split('/');
+                var year = eu_date[2];
+                var month = eu_date[1];
+                if (month.length == 1) {
+                    month = 0 + month;
+                }
+                var day = eu_date[0];
+                if (day.length == 1) {
+                    day = 0 + day;
+                }
+                return (year + month + day) * 1;
+            },
+
+            "date-eu-asc": function(a, b) {
+                return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+            },
+
+            "date-eu-desc": function(a, b) {
+                return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+            }
+        });
+        var oTable;
+        $(document).ready(function() {
+            oTable = $('#expense-list').dataTable({
+                "bAutoWidth": false,
+                "bJQueryUI": true,
+                "iDisplayLength": 100,
+                "sDom": 'l<"center"T>ftip<"total">',
+                "aoColumns": [null, {
+                        sType: "date-eu"
+                    },
+                    null, null, null, {
+                        bSortable: false
+                    }
+                ],
+                "oTableTools": {
+                    "sSwfPath": "/swf/copy_csv_xls_pdf.swf",
+                    "aButtons": ['csv', 'pdf'],
+                },
+            }).yadcf([{
+                column_number: 0
+            }, {
+                column_number: 1,
+                text_data_delimiter: "mm/yyyy",
+                filter_default_label: "All Months"
+            }, {
+                column_number: 2
+            }, {
+                column_number: 4,
+                text_data_delimiter: " ",
+                filter_type: 'auto_complete'
+            }, ]).fnSort([
+                [1, 'desc']
+            ]);
+            $('.calc').on('click', function() {
+                var op = $(this).html();
+                $("#expr").html($('#expr').html() + ' ' + op + ' ' + $("#val").val());
+                if (op === '+') {
+                    $("#result").html(parseInt($("#result").html()) + parseInt($("#val").val()));
+                } else if (op === '-') {
+                    $("#result").html(parseInt($("#result").html()) - parseInt($("#val").val()));
+                } else if (op === '*') {
+                    $("#result").html(parseInt($("#result").html()) * parseInt($("#val").val()));
+                } else if (op === '/') {
+                    $("#result").html(parseInt($("#result").html()) / parseInt($("#val").val()));
+                }
+            });
+            $('#expense-list').on('click', 'button.delete', function() {
+                var r = confirm("Are you sure, you want to delete this record?");
+                var id = this.parentNode.parentNode.getAttribute('id');
+                if (r) {
+                    $.ajax({
+                        url: '/delete',
+                        type: 'POST',
+                        data: {
+                            '_id': id,
+                        },
+                        success: function() {
+                            //alert("Deleted successfully");
+                            //oTable.fnDeleteRow(document.getElementById(id));
+                            window.location = "/expenses";
+                        }
+                    });
+                }
+            });
+            /*$('#expense-list').on('click', 'button.edit' , function() {
 			$.ajax({
 				url : '/edit',
 				type : 'POST',
 				data : {'_id' :this.parentNode.parentNode.getAttribute('id'), },
 			});
 		});*/
-		$(".center").css('float','left');
-		$(".center").css('margin-left','35%');
-		$(".total").css('margin-left','46%');
-		cal_total();
-		$("#expense-list").on('change',function(){ cal_total();});
-	});
+            $(".center").css('float', 'left');
+            $(".center").css('margin-left', '35%');
+            $(".total").css('margin-left', '46%');
+            cal_total();
+            $("#expense-list").on('change', function() {
+                cal_total();
+            });
+        });
     </script>
-  </head>
-  <body>
-    <h1><%= title %></h1>
-	<div class='content'>
-	<table id='expense-list'>
-	<thead class='ui-widget-header'>
-		<th width="15%">Spent By</th>
-		<th width="10%">On Date</th>
-		<th width="20%">Spent for</th>
-		<th width="10%">Spent INR</th>
-		<th width="30%">Details/Info</th>
-		<th width="5%">Action</th>
-	</thead>
-	<tbody class='ui-widget-content'>
-	<% for(var i=0;i< data.length; i++){ %>
-	<% var date = data[i].date.getUTCDate() +'/'+(data[i].date.getUTCMonth() + 1)+'/'+data[i].date.getUTCFullYear();%>
-		<tr id="<%= data[i]._id %>">
-			<td><%= data[i].name %></td>
-			<td><%= date %></td>
-			<td><%= data[i].forWhat %></td>
-			<td class="inr"><%= data[i].howMuch %></td>
-			<td><%= data[i].details ? data[i].details : ' - ' %></td>
-			<td>
-				<!-- <button class="btn btn-small btn-primary edit">Edit</button> -->
-				<button class="btn btn-small btn-primary delete">Delete</button>
-			</td>
-		</tr>
-	<% } %>
-	</tbody>
-	</table>
-	</div>
-<br/>
-<center>
-<a href='/update'><button class="btn btn-primary">Add Expense</button></a>
-<a href='/stats'><button class="btn btn-primary">View Status</button></a>
-</center>
-  </body>
+</head>
+
+<body>
+    <p><strong>Expenses</strong>
+        <input id='val' value=0></input>
+        <button class='calc'>+</button>
+        <button class='calc'>-</button>
+        <button class='calc'>*</button>
+        <button class='calc'>/</button>
+        <span id='expr'>0</span> = <span id='result'>0</span>
+        <a href='/update'>
+            <button class="btn btn-primary left">New</button>
+        </a>
+        <a href='/stats'>
+            <button class="btn btn-primary left">Report</button>
+        </a>
+    </p>
+    <div class='content'>
+        <table id='expense-list'>
+            <thead class='ui-widget-header'>
+                <th width="15%">Spent By</th>
+                <th width="10%">On Date</th>
+                <th width="20%">Spent for</th>
+                <th width="10%">Spent INR</th>
+                <th width="30%">Details/Info</th>
+                <th width="5%">Action</th>
+            </thead>
+            <tbody class='ui-widget-content'>
+                <% for(var i=0;i< data.length; i++){ %>
+                    <% var date = data[i].date.getUTCDate() + '/'+(data[i].date.getUTCMonth() + 1)+ '/'+data[i].date.getUTCFullYear();%>
+                        <tr id="<%= data[i]._id %>">
+                            <td>
+                                <%= data[i].name %>
+                            </td>
+                            <td>
+                                <%= date %>
+                            </td>
+                            <td>
+                                <%= data[i].forWhat %>
+                            </td>
+                            <td class="inr">
+                                <%= data[i].howMuch %>
+                            </td>
+                            <td>
+                                <%= data[i].details ? data[i].details : ' - ' %>
+                            </td>
+                            <td>
+                                <!-- <button class="btn btn-small btn-primary edit">Edit</button> -->
+                                <button class="btn btn-small btn-primary delete">Delete</button>
+                            </td>
+                        </tr>
+                        <% } %>
+            </tbody>
+        </table>
+    </div>
+    <br/>
+    <center>
+        <a href='/update'>
+            <button class="btn btn-primary">Add Expense</button>
+        </a>
+        <a href='/stats'>
+            <button class="btn btn-primary">View Status</button>
+        </a>
+    </center>
+</body>
+
 </html>
